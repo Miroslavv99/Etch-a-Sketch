@@ -1,8 +1,9 @@
 const mainDiv = document.querySelector(".main-div");
-const buttonDiv = document.querySelector(".button-div");
+const changeButton = document.querySelector(".btn");
 const gridDiv = document.querySelector(".grid-div");
+const resetButton = document.querySelector(".reset");
 
-buttonDiv.addEventListener("click", () => {
+changeButton.addEventListener("click", () => {
   let enter = parseInt(prompt("Please enter your grid size [8px - 64px.]"));
 
   if (isNaN(enter) || enter < 8 || enter > 64) {
@@ -12,18 +13,26 @@ buttonDiv.addEventListener("click", () => {
 
   gridDiv.innerHTML = "";
 
-  const cellSize = 480 / enter;
+  const gridSize = 480 / enter;
 
   for (let i = 0; i < enter * enter; i++) {
     const grid = document.createElement("div");
     grid.className = "cube";
-    grid.style.height = `${cellSize}px`;
-    grid.style.width = `${cellSize}px`;
+    grid.style.height = `${gridSize}px`;
+    grid.style.width = `${gridSize}px`;
+    grid.style.opacity = 0;
 
     gridDiv.appendChild(grid);
 
     grid.addEventListener("mouseover", () => {
-      grid.style.backgroundColor = "#0f766e";
+      let currentOpacity = parseFloat(grid.style.opacity);
+      if (currentOpacity < 1) {
+        grid.style.opacity = currentOpacity + 0.2;
+      }
     });
   }
+});
+
+resetButton.addEventListener("click", () => {
+  gridDiv.innerHTML = "";
 });
